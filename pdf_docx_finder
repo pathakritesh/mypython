@@ -1,0 +1,53 @@
+import PyPDF2
+import docx
+import os
+
+path = ""
+dir_list = os.listdir(path)
+text = ''
+skill_list = ['aws','vpc','terraform','ec2','emr','docker','git','kubernetes','python','shell script','glue','athena']
+
+def pdf_data(mypath,skill_list):
+    pdfFileObj = open(val, 'rb')
+    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+    numpage = pdfReader.numPages
+    for i in range (numpage):
+        pageObj = pdfReader.getPage(i)
+        readtext = pageObj.extractText()
+        global text
+        text=text+readtext
+    text_finder(text,skill_list,j)
+    pdfFileObj.close()
+
+def text_finder(text,skill_list,j):
+    text = text.lower()
+    for i in skill_list:
+        i = i.lower()
+        if i in text:
+            print(f"Profile ** {j} ** skills matching: ",i)
+        else:
+            print(" file format pdf skills Not Matching: ",i)
+
+def doc_data(val,skill_list):    
+    def getText(val):
+        doc = docx.Document(val)
+        fullText = []
+        for para in doc.paragraphs:
+            fullText.append(para.text)
+        return '\n'.join(fullText)
+    text = getText(val)
+    text_finder(text,skill_list,j)
+for j in dir_list:
+    val = path+i
+#     for val in mypath:
+    if '.pdf' in val:
+        print("Running Scan for: ",j)
+        pdf_data(mypath,skill_list)
+    else:
+        print("Not Mtaching with PDF file format")
+    if '.docx' in val:
+        print("Running Scan for: ",j)
+        doc_data(val,skill_list)
+    else:
+        print("Not Matching With DOCX file Format")
+print("All files executed")
