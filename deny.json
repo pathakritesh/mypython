@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Deny",
+            "Action": "omics:StartRun",
+            "Resource": "arn:aws:omics:*:*:run/*",
+            "Condition": {
+                "StringNotLike": {
+                    "aws:RequestTag/ID:11": "*"
+                }
+            }
+        }
+    ]
+}
